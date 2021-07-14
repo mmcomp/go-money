@@ -69,6 +69,118 @@ func TestCAD_ParseCAD(t *testing.T) {
 			},
 			Error: "strconv.ParseInt: parsing \"-123456A\": invalid syntax",
 		},
+		{
+			Input: "",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"\": invalid syntax",
+		},
+		{
+			Input: "lizard",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"lizard\": invalid syntax",
+		},
+		{
+			Input: "one hundred",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"onehundred\": invalid syntax",
+		},
+		{
+			Input: "USD$1.23",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"USD123\": invalid syntax",
+		},
+		{
+			Input: "USD $1.23",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"USD123\": invalid syntax",
+		},
+		{
+			Input: "USD -$1.23",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"USD-123\": invalid syntax",
+		},
+		{
+			Input: "USD $-1.23",
+			Output: CAD{
+				cents: 0,
+			},
+			Error: "strconv.ParseInt: parsing \"USD-123\": invalid syntax",
+		},
+		{
+			Input: "1234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "$1234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "CAD$1234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "CAD $1234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "1,234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "$1,234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "CAD$1,234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "CAD $1,234",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
+		{
+			Input: "1234.",
+			Output: CAD{
+				cents: 1234,
+			},
+			Error: "",
+		},
 	}
 
 	for testNumber, test := range tests {
