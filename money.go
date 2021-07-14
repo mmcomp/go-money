@@ -2,7 +2,6 @@ package money
 
 import (
 	"database/sql/driver"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strconv"
@@ -47,7 +46,7 @@ func (receiver CAD) Sub(other CAD) CAD {
 }
 
 func (receiver CAD) GoString() string {
-	result := fmt.Sprintf("main.cents(%d)", receiver.cents)
+	result := fmt.Sprintf("main.Cents(%d)", receiver.cents)
 	return result
 }
 
@@ -57,12 +56,12 @@ func (receiver CAD) MarshalJSON() ([]byte, error) {
 }
 
 func (receiver *CAD) UnmarshalJSON(b []byte) error {
-	var cents int64
-	err := json.Unmarshal(b, &cents)
+	input := string(b)
+	cad, err := ParseCAD(input)
 	if err != nil {
 		return err
 	}
-	receiver.cents = cents
+	receiver.cents = cad.cents
 	return nil
 }
 
@@ -121,6 +120,7 @@ func ParseCAD(s string) (CAD, error) {
 	s = strings.Replace(s, ",", "", -1)
 	s = strings.Replace(s, ".", "", -1)
 	s = strings.Replace(s, " ", "", -1)
+	s = strings.Replace(s, "\"", "", -1)
 	cad := CAD{
 		cents: 0,
 	}

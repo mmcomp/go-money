@@ -351,25 +351,25 @@ func TestCAD_GoString(t *testing.T) {
 			Input: CAD{
 				cents: 1,
 			},
-			Expected: "main.cents(1)",
+			Expected: "main.Cents(1)",
 		},
 		{
 			Input: CAD{
 				cents: -7,
 			},
-			Expected: "main.cents(-7)",
+			Expected: "main.Cents(-7)",
 		},
 		{
 			Input: CAD{
 				cents: 0,
 			},
-			Expected: "main.cents(0)",
+			Expected: "main.Cents(0)",
 		},
 		{
 			Input: CAD{
 				cents: 1785,
 			},
-			Expected: "main.cents(1785)",
+			Expected: "main.Cents(1785)",
 		},
 	}
 
@@ -495,6 +495,12 @@ func TestCAD_UnmarshalJSON(t *testing.T) {
 				cents: 1785,
 			},
 			Input: []byte("1785"),
+		},
+		{
+			Expected: CAD{
+				cents: 1785,
+			},
+			Input: []byte("\"$17.85\""),
 		},
 	}
 
